@@ -3,7 +3,7 @@ import { DiGithubBadge } from "react-icons/di";
 
 function Navbar() {
   return (
-    <nav className="navbar shadow-lg mb-12 flex justify-between">
+    <nav className="navbar bg-dark-gh text-white shadow-lg mb-12 flex justify-between">
       <div className="flex-none px-2 mx-2">
         <DiGithubBadge className="text-2xl" />
         <Link to="/" className="text-lg font-bold align-middle">
