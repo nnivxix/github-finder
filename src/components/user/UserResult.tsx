@@ -1,29 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { UserGithub } from "../../types/schema";
 import UserItem from "./UserItem";
+import GithubContext from "../../context/GithubContext";
 function UserResult() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { users, loading, getUsers } = useContext(GithubContext);
 
   useEffect(() => {
     getUsers();
-  }, []);
-
-  const getUsers = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_GITHUB_API_URL as string}/users`,
-      {
-        headers: {
-          Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN as string}`,
-        },
-      }
-    );
-    const data = await response.json();
-
-    setUsers(data);
-    setLoading(false);
-  };
+  }, [getUsers]);
 
   if (!loading) {
     return (
