@@ -1,5 +1,6 @@
-import { useState, createContext, ReactNode } from "react";
+import { useReducer, createContext, ReactNode } from "react";
 import { UserGithub } from "../types/schema";
+import githubReducer from "./GithubReducer";
 
 interface GithubContextProps {
   users: UserGithub[];
@@ -16,8 +17,11 @@ const GITHUB_API_URL = import.meta.env.VITE_GITHUB_API_URL;
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 
 export const GithubProvider = ({ children }: { children: ReactNode }) => {
-  const [users, setUsers] = useState<UserGithub[]>([]);
-  const [loading, setLoading] = useState(true);
+  const initialState = {
+    users: [],
+    loading: true,
+  };
+  const [state, dispatch] = useReducer(githubReducer, initialState);
   const getUsers = async () => {
     const response = await fetch(`${GITHUB_API_URL as string}/users`, {
       headers: {
@@ -25,16 +29,17 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
       },
     });
     const data = await response.json();
-
-    setUsers(data);
-    setLoading(false);
+    dispatch({
+      type: "GET_USERS",
+      payload: data,
+    });
   };
 
   return (
     <GithubContext.Provider
       value={{
-        users,
-        loading,
+        users: state.users,
+        loading: state.loading,
         getUsers,
       }}
     >
