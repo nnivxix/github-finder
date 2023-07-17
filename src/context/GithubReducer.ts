@@ -4,10 +4,14 @@ interface GithubState {
   users: UserGithub[],
   loading: boolean,
 }
-interface GithubAction {
+interface GetUsers {
   type: "GET_USERS",
   payload: UserGithub[]
 }
+interface SetLoading {
+  type: "SET_LOADING",
+}
+type GithubAction = GetUsers | SetLoading;
 
 const githubReducer = (state: GithubState, action: GithubAction) => {
   switch(action.type) {
@@ -16,6 +20,11 @@ const githubReducer = (state: GithubState, action: GithubAction) => {
       ...state,
       users: action.payload,
       loading: false,
+    }
+    case "SET_LOADING": 
+    return {
+      ...state,
+      loading: true,
     }
     default:
       return state

@@ -19,10 +19,13 @@ const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 export const GithubProvider = ({ children }: { children: ReactNode }) => {
   const initialState = {
     users: [],
-    loading: true,
+    loading: false,
   };
+
   const [state, dispatch] = useReducer(githubReducer, initialState);
+
   const getUsers = async () => {
+    setLoading();
     const response = await fetch(`${GITHUB_API_URL as string}/users`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN as string}`,
@@ -34,6 +37,11 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
       payload: data,
     });
   };
+
+  const setLoading = () =>
+    dispatch({
+      type: "SET_LOADING",
+    });
 
   return (
     <GithubContext.Provider

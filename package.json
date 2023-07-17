@@ -24,7 +24,7 @@
     "autoprefixer": "^10.4.14",
     "daisyui": "^3.1.10",
     "eslint": "^8.44.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-hooks": "5.0.0-canary-546fe4681-20230713",
     "eslint-plugin-react-refresh": "^0.4.1",
     "postcss": "^8.4.25",
     "tailwindcss": "^3.3.2",

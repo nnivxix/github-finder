@@ -9,7 +9,7 @@ specifiers:
   autoprefixer: ^10.4.14
   daisyui: ^3.1.10
   eslint: ^8.44.0
-  eslint-plugin-react-hooks: ^4.6.0
+  eslint-plugin-react-hooks: 5.0.0-canary-546fe4681-20230713
   eslint-plugin-react-refresh: ^0.4.1
   postcss: ^8.4.25
   react: ^18.2.0
@@ -35,7 +35,7 @@ devDependencies:
   autoprefixer: 10.4.14_postcss@8.4.25
   daisyui: 3.1.10_postcss@8.4.25
   eslint: 8.44.0
-  eslint-plugin-react-hooks: 4.6.0_eslint@8.44.0
+  eslint-plugin-react-hooks: 5.0.0-canary-546fe4681-20230713_eslint@8.44.0
   eslint-plugin-react-refresh: 0.4.1_eslint@8.44.0
   postcss: 8.4.25
   tailwindcss: 3.3.2
@@ -1106,8 +1106,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-plugin-react-hooks/4.6.0_eslint@8.44.0:
-    resolution: {integrity: sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==}
+  /eslint-plugin-react-hooks/5.0.0-canary-546fe4681-20230713_eslint@8.44.0:
+    resolution: {integrity: sha512-unJNu1wHWEvyzHx0krFhMdzwDfrdPUHNqiwpp7eriUOk0LajkAyoVjaKrjo122Dsv7pZqr1SwsuNf5RPlvCYTg==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0

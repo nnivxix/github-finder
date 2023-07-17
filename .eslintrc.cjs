@@ -17,7 +17,7 @@ module.exports = {
     // project: "./tsconfig.json",
     tsconfigRootDir: __dirname,
   },
-  plugins: ["react-refresh"],
+  plugins: ["react-refresh", "react-hooks"],
   rules: {
     "react-refresh/only-export-components": [
       "warn",
@@ -28,5 +28,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off",
   },
 };
