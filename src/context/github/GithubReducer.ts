@@ -1,12 +1,17 @@
-import { UserGithub } from "../../types/schema"
+import { UserGithub, UsersGithub } from "../../types/schema"
 
 interface GithubState {
-  users: UserGithub[],
+  users: UsersGithub[],
+  user: UserGithub,
   loading: boolean,
 }
 interface GetUsers {
   type: "GET_USERS",
   payload: UserGithub[]
+}
+interface GetUser {
+  type: "GET_USER",
+  payload: UserGithub
 }
 interface SetLoading {
   type: "SET_LOADING",
@@ -14,7 +19,7 @@ interface SetLoading {
 interface ClearUsers {
   type: "CLEAR_USERS",
 }
-type GithubAction = GetUsers | ClearUsers | SetLoading;
+type GithubAction = GetUsers | GetUser | ClearUsers | SetLoading;
 
 const githubReducer = (state: GithubState, action: GithubAction) => {
   switch(action.type) {
@@ -22,6 +27,12 @@ const githubReducer = (state: GithubState, action: GithubAction) => {
     return {
       ...state,
       users: action.payload,
+      loading: false,
+    }
+    case "GET_USER" : 
+    return {
+      ...state,
+      user: action.payload,
       loading: false,
     }
     case "SET_LOADING": 

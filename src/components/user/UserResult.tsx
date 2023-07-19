@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { CgSpinner } from "react-icons/cg";
-import { UserGithub } from "../../types/schema";
+import { UsersGithub } from "../../types/schema";
 import UserItem from "./UserItem";
 import GithubContext from "../../context/github/GithubContext";
 function UserResult() {
@@ -9,7 +9,7 @@ function UserResult() {
   if (!loading) {
     return (
       <div className="grid grid-cols-1 bg-base-100 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
-        {users.map((user: UserGithub) => (
+        {users.map((user: UsersGithub) => (
           <UserItem key={user.id} user={user} />
         ))}
       </div>

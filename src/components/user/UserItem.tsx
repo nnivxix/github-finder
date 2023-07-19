@@ -1,8 +1,8 @@
-import { UserGithub } from "../../types/schema";
+import { UsersGithub } from "../../types/schema";
 import { Link } from "react-router-dom";
 
 interface UserItemProps {
-  user: UserGithub;
+  user: UsersGithub;
 }
 
 function UserItem({ user }: UserItemProps) {
