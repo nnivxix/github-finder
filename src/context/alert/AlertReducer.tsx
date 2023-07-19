@@ -1,6 +1,8 @@
 interface AlertState {
-  message: string;
-  type: string;
+  alert: {
+    message: string;
+    type: string;
+  };
 }
 interface SetAlert {
   type: "SET_ALERT";
@@ -17,8 +19,10 @@ const alertReducer = (state: AlertState, action: AlertAction) => {
       return action.payload;
     case "REMOVE_ALERT":
       return {
-        message: "",
-        type: "",
+        alert: {
+          message: "",
+          type: "",
+        },
       };
     default:
       return state;

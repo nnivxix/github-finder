@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
 import { CgCloseR } from "react-icons/cg";
 import GithubContext from "../../context/github/GithubContext";
+import AlertContext from "../../context/alert/AlertContext";
 
 function UserSearch() {
   const [text, setText] = useState("");
   const { users, searchUsers, clearUsers } = useContext(GithubContext);
+  const { setAlert } = useContext(AlertContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
@@ -13,7 +15,7 @@ function UserSearch() {
     e.preventDefault();
 
     if (text === "") {
-      alert("please input something");
+      setAlert("Please enter something", "error");
       return;
     }
     searchUsers(text);
