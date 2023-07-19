@@ -11,7 +11,10 @@ interface GetUsers {
 interface SetLoading {
   type: "SET_LOADING",
 }
-type GithubAction = GetUsers | SetLoading;
+interface ClearUsers {
+  type: "CLEAR_USERS",
+}
+type GithubAction = GetUsers | ClearUsers | SetLoading;
 
 const githubReducer = (state: GithubState, action: GithubAction) => {
   switch(action.type) {
@@ -25,6 +28,11 @@ const githubReducer = (state: GithubState, action: GithubAction) => {
     return {
       ...state,
       loading: true,
+    }
+    case "CLEAR_USERS": 
+    return {
+      ...state,
+      users: [],
     }
     default:
       return state

@@ -5,11 +5,13 @@ import githubReducer from "./GithubReducer";
 interface GithubContextProps {
   users: UserGithub[];
   loading: boolean;
+  clearUsers: () => void;
   searchUsers: (text: string) => Promise<void>;
 }
 const GithubContext = createContext<GithubContextProps>({
   users: [],
   loading: false,
+  clearUsers: () => null,
   searchUsers: async () => {},
 });
 
@@ -23,6 +25,7 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
+
   const searchUsers = async (text: string) => {
     setLoading();
 
@@ -47,12 +50,15 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
       type: "SET_LOADING",
     });
 
+  const clearUsers = () => dispatch({ type: "CLEAR_USERS" });
+
   return (
     <GithubContext.Provider
       value={{
         users: state.users,
         loading: state.loading,
         searchUsers,
+        clearUsers,
       }}
     >
       {children}

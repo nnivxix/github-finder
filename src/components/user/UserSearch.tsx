@@ -4,7 +4,7 @@ import GithubContext from "../../context/GithubContext";
 
 function UserSearch() {
   const [text, setText] = useState("");
-  const { searchUsers } = useContext(GithubContext);
+  const { searchUsers, clearUsers } = useContext(GithubContext);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,6 +44,16 @@ function UserSearch() {
           Search
         </button>
       </form>
+      <button
+        onClick={() => {
+          clearUsers();
+          clearInput();
+        }}
+        type="submit"
+        className="mb-3 md:mb-0 md:w-1/4 w-full btn bg-gray-500 text-gray-900 btn-md  md:btn-lg"
+      >
+        Clear Result
+      </button>
     </div>
   );
 }
