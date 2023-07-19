@@ -1,4 +1,4 @@
-import { UserGithub } from "../types/schema"
+import { UserGithub } from "../../types/schema"
 
 interface GithubState {
   users: UserGithub[],

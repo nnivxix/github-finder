@@ -1,5 +1,5 @@
 import { useReducer, createContext, ReactNode } from "react";
-import { UserGithub } from "../types/schema";
+import { UserGithub } from "../../types/schema";
 import githubReducer from "./GithubReducer";
 
 interface GithubContextProps {

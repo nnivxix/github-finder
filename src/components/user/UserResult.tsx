@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { UserGithub } from "../../types/schema";
 import UserItem from "./UserItem";
-import GithubContext from "../../context/GithubContext";
+import GithubContext from "../../context/github/GithubContext";
 function UserResult() {
   const { users, loading } = useContext(GithubContext);
 

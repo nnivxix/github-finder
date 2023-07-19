@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { CgCloseR } from "react-icons/cg";
-import GithubContext from "../../context/GithubContext";
+import GithubContext from "../../context/github/GithubContext";
 
 function UserSearch() {
   const [text, setText] = useState("");
