@@ -7,7 +7,7 @@ function UserResult() {
   const { users, loading, getUsers } = useContext(GithubContext);
 
   useEffect(() => {
-    getUsers();
+    // getUsers();
   }, []);
 
   if (!loading) {
