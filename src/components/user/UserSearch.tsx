@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { CgCloseR } from "react-icons/cg";
+import GithubContext from "../../context/GithubContext";
 
 function UserSearch() {
   const [text, setText] = useState("");
-
+  const { searchUsers } = useContext(GithubContext);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -12,8 +13,7 @@ function UserSearch() {
     if (text === "") {
       alert("please input something");
     } else {
-      // @todo : search user
-      setText("");
+      searchUsers(text);
     }
   };
   const clearInput = () => setText("");
@@ -24,7 +24,7 @@ function UserSearch() {
           <input
             onChange={handleChange}
             type="text"
-            placeholder="Search Github user"
+            placeholder="Search Github username ex:nnivxix"
             value={text}
             className=" w-full placeholder:text-gray-600 text-dark-gh  md:rounded-r-none md:rounded-bl-lg md:rounded-b-none bg-gray-200 input-md input md:input-lg "
           />

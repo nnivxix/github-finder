@@ -5,12 +5,12 @@ import githubReducer from "./GithubReducer";
 interface GithubContextProps {
   users: UserGithub[];
   loading: boolean;
-  getUsers: () => Promise<void>;
+  searchUsers: (text: string) => Promise<void>;
 }
 const GithubContext = createContext<GithubContextProps>({
   users: [],
   loading: false,
-  getUsers: async () => {},
+  searchUsers: async () => {},
 });
 
 const GITHUB_API_URL = import.meta.env.VITE_GITHUB_API_URL;
@@ -23,18 +23,22 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
-
-  const getUsers = async () => {
+  const searchUsers = async (text: string) => {
     setLoading();
-    const response = await fetch(`${GITHUB_API_URL as string}/users`, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN as string}`,
-      },
-    });
-    const data = await response.json();
+
+    const response = await fetch(
+      `${GITHUB_API_URL as string}/search/users?q=${text}`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN as string}`,
+        },
+      }
+    );
+    const { items } = await response.json();
+
     dispatch({
       type: "GET_USERS",
-      payload: data,
+      payload: items,
     });
   };
 
@@ -48,7 +52,7 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
       value={{
         users: state.users,
         loading: state.loading,
-        getUsers,
+        searchUsers,
       }}
     >
       {children}
