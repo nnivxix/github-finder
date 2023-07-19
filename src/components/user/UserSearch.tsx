@@ -4,21 +4,25 @@ import GithubContext from "../../context/GithubContext";
 
 function UserSearch() {
   const [text, setText] = useState("");
-  const { searchUsers, clearUsers } = useContext(GithubContext);
+  const { users, searchUsers, clearUsers } = useContext(GithubContext);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (text === "") {
       alert("please input something");
-    } else {
-      searchUsers(text);
+      return;
     }
+    searchUsers(text);
   };
+
   const clearInput = () => setText("");
+
   return (
-    <div>
+    <div className="mb-9">
       <form className="flex flex-col md:flex-row" onSubmit={handleSubmit}>
         <div className="relative md:w-1/2 mb-3 md:mb-0">
           <input
@@ -49,7 +53,8 @@ function UserSearch() {
           clearUsers();
           clearInput();
         }}
-        type="submit"
+        type="button"
+        disabled={users.length ? false : true}
         className="mb-3 md:mb-0 md:w-1/4 w-full btn bg-gray-500 text-gray-900 btn-md  md:btn-lg"
       >
         Clear Result
