@@ -1,65 +1,32 @@
 import { useReducer, createContext, ReactNode } from "react";
-import { UserGithub, UsersGithub } from "../../types/schema";
+import { UserGithub, UsersGithub, UserRepo } from "../../types/schema";
 import githubReducer from "./GithubReducer";
+import InitialState from "./InitialState";
 
 interface GithubContextProps {
   users: UsersGithub[];
   user: UserGithub;
+  repos: UserRepo[];
   loading: boolean;
   clearUsers: () => void;
   searchUsers: (text: string) => Promise<void>;
   getUser: (login: string) => Promise<void>;
+  getUserRepos: (login: string) => Promise<void>;
 }
-const initUserGithub = {
-  users: [],
-  user: {
-    login: "",
-    id: 0,
-    node_id: "",
-    avatar_url: "",
-    gravatar_id: "",
-    url: "",
-    html_url: "",
-    followers_url: "",
-    following_url: "",
-    gists_url: "",
-    starred_url: "",
-    subscriptions_url: "",
-    organizations_url: "",
-    repos_url: "",
-    events_url: "",
-    received_events_url: "",
-    type: "",
-    site_admin: false,
-    name: "",
-    company: "",
-    blog: "",
-    location: "",
-    email: "",
-    hireable: false,
-    bio: "",
-    twitter_username: "",
-    public_repos: 0,
-    public_gists: 0,
-    followers: 0,
-    following: 0,
-    created_at: "",
-    updated_at: "",
-  },
-  loading: false,
-};
+
 const GithubContext = createContext<GithubContextProps>({
-  ...initUserGithub,
+  ...InitialState,
   clearUsers: () => null,
   searchUsers: async () => {},
   getUser: async () => {},
+  getUserRepos: async () => {},
 });
 
 const GITHUB_API_URL = import.meta.env.VITE_GITHUB_API_URL;
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 
 export const GithubProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(githubReducer, initUserGithub);
+  const [state, dispatch] = useReducer(githubReducer, InitialState);
 
   const searchUsers = async (text: string) => {
     setLoading();
@@ -93,6 +60,25 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
       payload: data,
     });
   };
+  const getUserRepos = async (login: string) => {
+    setLoading();
+
+    const response = await fetch(
+      `${
+        GITHUB_API_URL as string
+      }/users/${login}/repos?sort=updated&per_page=10`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN as string}`,
+        },
+      }
+    );
+    const data = await response.json();
+    dispatch({
+      type: "GET_REPOS",
+      payload: data,
+    });
+  };
 
   const setLoading = () =>
     dispatch({
@@ -106,10 +92,12 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
       value={{
         users: state.users,
         user: state.user,
+        repos: state.repos,
         loading: state.loading,
         searchUsers,
         getUser,
         clearUsers,
+        getUserRepos,
       }}
     >
       {children}

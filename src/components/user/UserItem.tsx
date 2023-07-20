@@ -1,5 +1,5 @@
-import { UsersGithub } from "../../types/schema";
 import { Link } from "react-router-dom";
+import { UsersGithub } from "../../types/schema";
 
 interface UserItemProps {
   user: UsersGithub;
