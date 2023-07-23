@@ -2,23 +2,31 @@ import React, { useState, useContext } from "react";
 import { CgCloseR } from "react-icons/cg";
 import GithubContext from "../../context/github/GithubContext";
 import AlertContext from "../../context/alert/AlertContext";
-
+import { searchUsers } from "../../context/github/GithubActions";
+import { UserGithub } from "../../types/schema";
 function UserSearch() {
   const [text, setText] = useState("");
-  const { users, searchUsers, clearUsers } = useContext(GithubContext);
+  const { users, clearUsers, dispatch } = useContext(GithubContext);
   const { setAlert } = useContext(AlertContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (text === "") {
       setAlert("Please enter something", "error");
       return;
     }
-    searchUsers(text);
+
+    dispatch({ type: "SET_LOADING" });
+    const users: UserGithub[] = await searchUsers(text);
+    dispatch({
+      type: "GET_USERS",
+      payload: users,
+    });
+    return users;
   };
 
   const clearInput = () => setText("");
@@ -57,7 +65,7 @@ function UserSearch() {
         }}
         type="button"
         disabled={users.length ? false : true}
-        className="mb-3 md:mb-0 md:w-1/4 w-full btn bg-gray-500 text-gray-900 btn-md  md:btn-lg"
+        className="mb-3 md:mb-0 md:w-1/4 w-full btn bg-gray-500 text-gray-900 hover:text-white btn-md  md:btn-lg"
       >
         Clear Result
       </button>

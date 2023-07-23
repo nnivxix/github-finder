@@ -8,16 +8,17 @@ interface GithubContextProps {
   user: UserGithub;
   repos: UserRepo[];
   loading: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatch: React.Dispatch<any>;
   clearUsers: () => void;
-  searchUsers: (text: string) => Promise<void>;
   getUser: (login: string) => Promise<void>;
   getUserRepos: (login: string) => Promise<void>;
 }
 
 const GithubContext = createContext<GithubContextProps>({
   ...InitialState,
+  dispatch: () => null,
   clearUsers: () => null,
-  searchUsers: async () => {},
   getUser: async () => {},
   getUserRepos: async () => {},
 });
@@ -28,24 +29,6 @@ const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 export const GithubProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(githubReducer, InitialState);
 
-  const searchUsers = async (text: string) => {
-    setLoading();
-
-    const response = await fetch(
-      `${GITHUB_API_URL as string}/search/users?q=${text}`,
-      {
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN as string}`,
-        },
-      }
-    );
-    const { items } = await response.json();
-
-    dispatch({
-      type: "GET_USERS",
-      payload: items,
-    });
-  };
   const getUser = async (login: string) => {
     setLoading();
 
@@ -90,11 +73,8 @@ export const GithubProvider = ({ children }: { children: ReactNode }) => {
   return (
     <GithubContext.Provider
       value={{
-        users: state.users,
-        user: state.user,
-        repos: state.repos,
-        loading: state.loading,
-        searchUsers,
+        ...state,
+        dispatch,
         getUser,
         clearUsers,
         getUserRepos,

@@ -30,5 +30,11 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: false,
+      },
+    ],
   },
 };
