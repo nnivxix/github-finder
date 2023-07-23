@@ -46,6 +46,7 @@ function User() {
               </span>
             )}
           </h1>
+          <h1>username: {user.login}</h1>
           <p className="text-lg">Live at: {user.location}</p>
           <p className="text-lg">bio: {user.bio}</p>
           {user.company && (

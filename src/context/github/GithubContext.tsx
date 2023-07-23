@@ -8,6 +8,7 @@ interface GithubContextProps {
   user: UserGithub;
   repos: UserRepo[];
   loading: boolean;
+  inputSearch: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dispatch: React.Dispatch<any>;
 }

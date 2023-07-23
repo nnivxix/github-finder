@@ -4,13 +4,15 @@ import GithubContext from "../../context/github/GithubContext";
 import AlertContext from "../../context/alert/AlertContext";
 import { searchUsers } from "../../context/github/GithubActions";
 import { UserGithub } from "../../types/schema";
+
 function UserSearch() {
-  const [text, setText] = useState("");
-  const { users, dispatch } = useContext(GithubContext);
+  const { users, inputSearch, dispatch } = useContext(GithubContext);
+  const [text, setText] = useState(inputSearch);
   const { setAlert } = useContext(AlertContext);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,6 +21,11 @@ function UserSearch() {
       setAlert("Please enter something", "error");
       return;
     }
+
+    dispatch({
+      type: "INPUT_SEARCH",
+      payload: text,
+    });
 
     dispatch({ type: "SET_LOADING" });
     const users: UserGithub[] = await searchUsers(text);
@@ -29,7 +36,10 @@ function UserSearch() {
     return users;
   };
 
-  const clearInput = () => setText("");
+  const clearInput = () => {
+    dispatch({ type: "CLEAR_INPUT_SEARCH" });
+    setText("");
+  };
 
   return (
     <div className="mb-9">
@@ -61,6 +71,7 @@ function UserSearch() {
       <button
         onClick={() => {
           dispatch({ type: "CLEAR_USERS" });
+          dispatch({ type: "CLEAR_INPUT_SEARCH" });
           clearInput();
         }}
         type="button"

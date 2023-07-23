@@ -36,6 +36,7 @@ const InitialState = {
   },
   repos: [],
   loading: false,
+  inputSearch: "",
 };
 
 export default InitialState;
