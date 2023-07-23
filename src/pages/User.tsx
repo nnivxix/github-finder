@@ -4,7 +4,7 @@ import { FaUserGroup, FaBookBookmark, FaBook } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import GithubContext from "../context/github/GithubContext";
 import RepositoryList from "../components/repositories/RepositoryList";
-import { getUser, getUserRepos } from "../context/github/GithubActions";
+import { getUserAndRepos } from "../context/github/GithubActions";
 
 function User() {
   const { login } = useParams();
@@ -16,11 +16,8 @@ function User() {
     });
 
     const getUserData = async () => {
-      const userData = await getUser(login as string);
-      dispatch({ type: "GET_USER", payload: userData });
-
-      const userDataRepo = await getUserRepos(login as string);
-      dispatch({ type: "GET_REPOS", payload: userDataRepo });
+      const userData = await getUserAndRepos(login as string);
+      dispatch({ type: "GET_USER_AND_REPOS", payload: userData });
     };
     getUserData();
   }, [dispatch, login]);

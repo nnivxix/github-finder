@@ -10,21 +10,21 @@ interface GetUsers {
   type: "GET_USERS",
   payload: UserGithub[]
 }
-interface GetUser {
-  type: "GET_USER",
-  payload: UserGithub
-}
 interface SetLoading {
   type: "SET_LOADING",
 }
 interface ClearUsers {
   type: "CLEAR_USERS",
 }
-interface GetRepos {
-  type: "GET_REPOS",
-  payload: UserRepo[]
+
+interface GetUserAndRepos {
+  type: "GET_USER_AND_REPOS",
+  payload: {
+    user: UserGithub,
+    repos:  UserRepo[]
+  }
 }
-type GithubAction = GetUsers | GetUser | ClearUsers | SetLoading | GetRepos;
+type GithubAction = GetUsers | ClearUsers | SetLoading | GetUserAndRepos;
 
 const githubReducer = (state: GithubState, action: GithubAction) => {
   switch(action.type) {
@@ -32,12 +32,6 @@ const githubReducer = (state: GithubState, action: GithubAction) => {
     return {
       ...state,
       users: action.payload,
-      loading: false,
-    }
-    case "GET_USER" : 
-    return {
-      ...state,
-      user: action.payload,
       loading: false,
     }
     case "SET_LOADING": 
@@ -50,10 +44,11 @@ const githubReducer = (state: GithubState, action: GithubAction) => {
       ...state,
       users: [],
     }
-    case 'GET_REPOS':
+    case 'GET_USER_AND_REPOS':
       return {
         ...state,
-        repos: action.payload,
+        user: action.payload.user,
+        repos: action.payload.repos,
         loading: false,
       }
     default:
