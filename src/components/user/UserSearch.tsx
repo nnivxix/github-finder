@@ -6,7 +6,7 @@ import { searchUsers } from "../../context/github/GithubActions";
 import { UserGithub } from "../../types/schema";
 function UserSearch() {
   const [text, setText] = useState("");
-  const { users, clearUsers, dispatch } = useContext(GithubContext);
+  const { users, dispatch } = useContext(GithubContext);
   const { setAlert } = useContext(AlertContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -60,7 +60,7 @@ function UserSearch() {
       </form>
       <button
         onClick={() => {
-          clearUsers();
+          dispatch({ type: "CLEAR_USERS" });
           clearInput();
         }}
         type="button"

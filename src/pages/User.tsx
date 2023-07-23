@@ -4,15 +4,26 @@ import { FaUserGroup, FaBookBookmark, FaBook } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import GithubContext from "../context/github/GithubContext";
 import RepositoryList from "../components/repositories/RepositoryList";
+import { getUser, getUserRepos } from "../context/github/GithubActions";
 
 function User() {
   const { login } = useParams();
-  const { user, getUser, getUserRepos, repos } = useContext(GithubContext);
+  const { user, repos, dispatch } = useContext(GithubContext);
 
   useEffect(() => {
-    getUser(login as string);
-    getUserRepos(login as string);
-  }, []);
+    dispatch({
+      type: "SET_LOADING",
+    });
+
+    const getUserData = async () => {
+      const userData = await getUser(login as string);
+      dispatch({ type: "GET_USER", payload: userData });
+
+      const userDataRepo = await getUserRepos(login as string);
+      dispatch({ type: "GET_REPOS", payload: userDataRepo });
+    };
+    getUserData();
+  }, [dispatch, login]);
 
   return (
     <div>
